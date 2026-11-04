@@ -1,0 +1,27 @@
+# ---- 工具工作区（ZCode 的会话计划等，非项目内容）----
+.zcode/
+
+# ---- 系统 / 编辑器 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+
+# ---- 依赖与构建产物（本项目零依赖，仅作兜底）----
+node_modules/
+dist/
+build/
+
+# ---- 日志与临时文件 ----
+*.log
+npm-debug.log*
+*.tmp
+*.bak
+
+# ---- 备份 / 导出 / 密钥 ----
+*.zip
+.habit-backup-*.json
+.env
+.env.*

@@ -1,0 +1,15 @@
+{
+  "name": "习惯花园 · 打卡助手",
+  "short_name": "习惯花园",
+  "description": "把坚持种成一座花园：打卡照料植株，攒花露经营苗圃。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f4ec",
+  "theme_color": "#5a9367",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

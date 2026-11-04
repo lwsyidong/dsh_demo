@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="theme-color" content="#f6f4ec" />
+    <link rel="manifest" href="manifest.json" />
+    <!-- 圆体网络字体：加载失败自动落回本地圆体/雅黑，不阻塞页面 -->
+    <link rel="preconnect" href="https://fonts.loli.net" crossorigin />
+    <link rel="stylesheet" href="https://fonts.loli.net/css2?family=ZCOOL+KuaiLe&display=swap" media="print" onload="this.media='all'" />
+    <link rel="icon" type="image/png" href="icon-192.png" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <link rel="manifest" href="manifest.json" />
+    <!-- 圆体网络字体：加载失败自动落回本地圆体/雅黑，不阻塞页面 -->
+    <link rel="preconnect" href="https://fonts.loli.net" crossorigin />
+    <link rel="stylesheet" href="https://fonts.loli.net/css2?family=ZCOOL+KuaiLe&display=swap" media="print" onload="this.media='all'" />
+    <link rel="icon" type="image/png" href="icon-192.png" />
+    <link rel="apple-touch-icon" href="icon-192.png" />
+    <title>习惯花园 · 打卡助手</title>
+    <link rel="stylesheet" href="styles.css?v=51" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">🌱</span>
+        <div class="brand-text">
+          <strong>习惯花园</strong>
+          <small id="todayKeyLabel" title="打卡日以凌晨 5 点为界"></small>
+        </div>
+      </div>
+      <nav class="topbar-nav" aria-label="功能入口">
+        <span class="dew" id="dewDisplay" title="花露：打卡获得，可在商店消费">💧 0</span>
+        <button class="nav-btn" id="shopBtn" type="button" aria-label="商店">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9 5.6 4h12.8L20 9"/><path d="M4 9c0 1.5 1.2 2.6 2.6 2.6S9.2 10.4 9.2 9m0 0c0 1.5 1.2 2.6 2.8 2.6 1.5 0 2.7-1.1 2.7-2.6m0 0c0 1.5 1.2 2.6 2.6 2.6S20 10.4 20 9m-16 4.6V20h12.9v-6.4M10 20v-3.6h4V20"/></svg>
+          <span>商店</span></button>
+        <button class="nav-btn" id="collectionBtn" type="button" aria-label="花园图鉴">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.2C10.2 4.7 7.9 4.2 4.2 4.2v13.6c3.7 0 6 .5 7.8 2 1.8-1.5 4.1-2 7.8-2V4.2c-3.7 0-6 .5-7.8 2Z"/><path d="M12 6.2v13.6"/></svg>
+          <span>图鉴</span></button>
+        <button class="nav-btn" id="statsBtn" type="button" aria-label="花园账本">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 19.5h15"/><path d="M8 16v-5.5M12.5 16V6.5M17 16v-8"/></svg>
+          <span>账本</span></button>
+        <button class="nav-btn" id="dataBtn" type="button" aria-label="数据管理">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7.5h9.5M17.5 7.5H20M4 16.5h3.5M11.5 16.5H20"/><circle cx="15.6" cy="7.5" r="2.1" style="fill:currentColor"/><circle cx="9.6" cy="16.5" r="2.1" style="fill:currentColor"/></svg>
+          <span>管理</span></button>
+        <span class="nav-sep" aria-hidden="true"></span>
+        <button class="btn btn-primary" id="addHabitBtn" type="button">＋ 种下习惯</button>
+      </nav>
+    </header>
+
+    <main>
+      <div class="notice-bar" id="noticeBar" role="status" hidden></div>
+      <section class="today">
+        <h2>今日照料 <span class="muted" id="todaySummary"></span></h2>
+        <p class="sub">打卡日以凌晨 5 点为界，一个打卡日只能打一次 · 打卡即自动为植物满状态照料</p>
+        <div class="today-list" id="todayList"></div>
+      </section>
+
+      <section class="garden">
+        <div class="garden-head">
+          <h2>我的花园</h2>
+          <button class="btn btn-primary" id="openGardenBtn" type="button">🗺 进入花园</button>
+        </div>
+        <p class="list-hint" id="listHint">每一张卡片是一个习惯，点击可看植物详情与花语。</p>
+        <div class="garden-grid" id="gardenGrid"></div>
+      </section>
+
+      <!-- 花园全屏视图 -->
+      <div class="garden-overlay" id="gardenOverlay" hidden>
+        <div class="garden-overlay-head">
+          <button class="btn btn-ghost" id="closeGardenBtn" type="button">← 返回列表</button>
+          <h2>🌱 我的花园</h2>
+          <span class="spacer"></span>
+        </div>
+        <div class="map-tabs" id="mapTabs" role="tablist" aria-label="地图切换"></div>
+        <div class="map-toolbar">
+          <span class="skin-picker" id="skinPicker" role="group" aria-label="地图皮肤"></span>
+          <span class="place-hint" id="placeHint" hidden></span>
+          <span class="spacer"></span>
+          <button class="btn btn-sm btn-danger" id="deleteMapBtn" type="button" title="删除这张地图">删除地图</button>
+        </div>
+        <div class="map-scroll"><div class="garden-map" id="gardenMap" role="group" aria-label="9×9 花园地图，每个格子是一株植物或一件装饰"></div></div>
+        <div class="tray" id="tray"></div>
+      </div>
+    </main>
+
+    <footer>
+      <span>数据保存在本浏览器 · </span>
+      <button class="link-btn" id="exportBtn" type="button">导出备份</button>
+    </footer>
+
+    <!-- 新建/编辑习惯 -->
+    <dialog id="habitDialog">
+      <form id="habitForm" method="dialog">
+        <h3 id="dialogTitle">种下一个新习惯</h3>
+        <input type="hidden" id="habitId" />
+        <p class="form-error" id="habitError" hidden></p>
+        <label>习惯名称
+          <input type="text" id="habitName" maxlength="20" placeholder="例如：睡前阅读 15 分钟" required />
+        </label>
+        <label>打卡频率
+          <select id="habitSchedule">
+            <option value="daily">每天</option>
+            <option value="weekdays">工作日（周一~周五）</option>
+            <option value="weekends">周末</option>
+            <option value="custom">自定义星期几</option>
+          </select>
+        </label>
+        <div class="weekday-picker" id="weekdayPicker" hidden>
+          <label><input type="checkbox" value="1" />一</label>
+          <label><input type="checkbox" value="2" />二</label>
+          <label><input type="checkbox" value="3" />三</label>
+          <label><input type="checkbox" value="4" />四</label>
+          <label><input type="checkbox" value="5" />五</label>
+          <label><input type="checkbox" value="6" />六</label>
+          <label><input type="checkbox" value="0" />日</label>
+        </div>
+        <label>目标坚持次数
+          <select id="habitTarget">
+            <option value="7">7 次</option>
+            <option value="21" selected>21 次</option>
+            <option value="30">30 次</option>
+            <option value="60">60 次</option>
+            <option value="100">100 次</option>
+          </select>
+          <small id="targetEstimate"></small>
+        </label>
+        <fieldset class="field" id="pauseField" hidden>
+          <legend>暂停照料（出差、生病）</legend>
+          <div class="pause-picker" id="pausePicker">
+            <label><input type="radio" name="pause" value="0" checked /><span>不暂停</span></label>
+            <label><input type="radio" name="pause" value="3" /><span>暂停 3 天</span></label>
+            <label><input type="radio" name="pause" value="7" /><span>暂停 7 天</span></label>
+            <label><input type="radio" name="pause" value="14" /><span>暂停 14 天</span></label>
+            <label><input type="radio" name="pause" value="30" /><span>暂停 30 天</span></label>
+          </div>
+          <small id="pauseNote">暂停期间不会判枯萎、不掉状态、连击冻结，但也不能打卡。</small>
+        </fieldset>
+        <label>植物品种（🌸 为花类，详情页可看花语）
+          <select id="habitPlant"></select>
+        </label>
+        <p class="hint" id="replantHint" hidden>补种会重新开始生长，打卡记录与连击保留。</p>
+        <div class="dialog-actions">
+          <button type="button" class="btn btn-danger" id="deleteHabitBtn" hidden>删除习惯</button>
+          <span class="spacer"></span>
+          <button type="button" class="btn btn-ghost" data-close>取消</button>
+          <button type="submit" class="btn btn-primary" id="saveHabitBtn">种下</button>
+        </div>
+      </form>
+    </dialog>
+
+    <!-- 植物详情 -->
+    <dialog id="plantDialog">
+      <div class="pd-layout" id="plantDetail"></div>
+      <div class="dialog-actions" id="graduateActions" hidden>
+        <button class="btn btn-primary" id="seasonUpBtn" type="button">继续升阶</button>
+        <button class="btn btn-ghost" id="harvestBtn" type="button">收获入图鉴</button>
+        <span class="spacer"></span>
+        <button class="btn btn-ghost" data-close type="button">先放着</button>
+      </div>
+      <p class="hint" id="graduateHint" hidden>🎓 这株植物已毕业：不再枯萎、不掉状态，打卡只为花露。你可以让它继续升阶（更难的新目标），或收获入图鉴后换一株重新开始。</p>
+      <div class="dialog-actions">
+        <button class="btn btn-ghost" id="moveFromPlantBtn" type="button">移动位置</button>
+        <button class="btn btn-ghost" id="editFromPlantBtn" type="button">编辑习惯</button>
+        <span class="spacer"></span>
+        <button class="btn btn-primary" data-close type="button">关闭</button>
+      </div>
+    </dialog>
+
+    <!-- 商店 -->
+    <dialog id="shopDialog">
+      <div class="shop-head">
+        <h3>🏪 花园商店 <span class="dew" id="shopDew">💧 0</span></h3>
+        <button class="btn btn-ghost btn-sm" data-close type="button">关闭</button>
+      </div>
+      <div class="shop-tabs" role="tablist">
+        <button class="shop-tab is-active" type="button" data-tab="plants">植物品种</button>
+        <button class="shop-tab" type="button" data-tab="animals">小动物园丁</button>
+        <button class="shop-tab" type="button" data-tab="tools">照料道具</button>
+        <button class="shop-tab" type="button" data-tab="decors">花园装饰</button>
+        <button class="shop-tab" type="button" data-tab="skins">地图皮肤</button>
+      </div>
+      <p class="hint shop-hint" id="shopHint" hidden></p>
+      <div class="shop-body">
+        <div class="shop-pane" data-pane="plants" id="shopPlants"></div>
+        <div class="shop-pane" data-pane="animals" id="shopAnimals" hidden></div>
+        <div class="shop-pane" data-pane="tools" id="shopTools" hidden></div>
+        <div class="shop-pane" data-pane="decors" id="shopDecors" hidden></div>
+        <p class="hint" id="skinNote" hidden>皮肤按地图单独购买：当前正在为 <b id="shopSkinMapName">花园 1</b> 购买，切换地图后可以另买一套。</p>
+        <div class="shop-pane" data-pane="skins" id="shopSkins" hidden></div>
+      </div>
+    </dialog>
+
+    <!-- 统计 -->
+    <dialog id="statsDialog">
+      <div class="shop-head">
+        <h3>📊 花园账本</h3>
+        <button class="btn btn-ghost btn-sm" data-close type="button">关闭</button>
+      </div>
+      <div class="shop-body">
+        <h4>打卡日历（近 12 周，每列一周）</h4>
+        <p class="hint">绿＝已打卡 · 粉＝漏打 · 灰＝非计划日或还没种下 · 白＝还没到</p>
+        <div class="cal-pick">
+          <label>查看习惯：<select id="statsHabitSel"></select></label>
+          <span class="muted" id="statsHabitMeta"></span>
+        </div>
+        <div id="statsCals"></div>
+        <div id="statsReport"></div>
+      </div>
+    </dialog>
+
+    <!-- 花园图鉴 -->
+    <dialog id="collectionDialog">
+      <div class="shop-head">
+        <h3>📖 花园图鉴 <span class="muted" id="collectionCount"></span></h3>
+        <button class="btn btn-ghost btn-sm" data-close type="button">关闭</button>
+      </div>
+      <div class="shop-body">
+        <div class="medal-strip" id="medalStrip"></div>
+        <div class="collection-grid" id="collectionGrid"></div>
+        <p class="hint" id="collectionTip">点任意品种看它的花语。</p>
+      </div>
+    </dialog>
+
+    <!-- 选择地图（买小动物、移动植物等） -->
+    <dialog id="mapPickDialog">
+      <h3 id="mapPickTitle">放到哪张地图？</h3>
+      <p class="hint" id="mapPickDesc"></p>
+      <label>选择地图
+        <select id="mapPickSelect"></select>
+      </label>
+      <div class="dialog-actions">
+        <span class="spacer"></span>
+        <button class="btn btn-ghost" id="mapPickCancel" type="button">取消</button>
+        <button class="btn btn-primary" id="mapPickOk" type="button">确认</button>
+      </div>
+    </dialog>
+
+    <!-- 统一确认框 -->
+    <dialog id="confirmDialog">
+      <h3 id="confirmTitle">确认操作</h3>
+      <p class="confirm-message" id="confirmMessage"></p>
+      <div class="dialog-actions">
+        <span class="spacer"></span>
+        <button class="btn btn-ghost" id="confirmCancel" type="button">取消</button>
+        <button class="btn btn-primary" id="confirmOk" type="button">确认</button>
+      </div>
+    </dialog>
+
+    <!-- 数据管理 -->
+    <dialog id="dataDialog">
+      <h3>⚙ 数据管理</h3>
+      <div class="data-actions">
+        <button class="btn" id="exportBtn2" type="button">导出备份（JSON）</button>
+        <button class="btn" id="importBtn" type="button">导入备份</button>
+        <input type="file" id="importFile" accept=".json" hidden />
+        <button class="btn btn-danger" id="resetBtn" type="button">清空所有数据</button>
+      </div>
+      <h4>🔔 每日打卡提醒</h4>
+      <label class="reminder-row">
+        <input type="checkbox" id="reminderToggle" />
+        <span>开启提醒</span>
+        <input type="time" id="reminderTime" value="20:00" />
+      </label>
+      <p class="hint">到点若有还没打的卡，会弹浏览器通知。提醒只在页面开着时生效（浏览器限制）——把本页固定在标签页，或通过浏览器菜单「安装/添加到主屏幕」变成应用，日常就更可靠。</p>
+      <div class="dialog-actions">
+        <button class="btn btn-primary" data-close type="button">关闭</button>
+      </div>
+    </dialog>
+
+    <div id="toastRegion" aria-live="polite"></div>
+    <script src="plants.js?v=51"></script>
+    <script src="app.js?v=51"></script>
+  </body>
+</html>

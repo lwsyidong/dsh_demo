@@ -1,0 +1,14 @@
+# 统一换行：文本文件按 LF 存储、按平台检出；PNG 等二进制不做转换
+* text=auto
+
+*.html   text eol=lf
+*.css    text eol=lf
+*.js     text eol=lf
+*.json   text eol=lf
+*.md     text eol=lf
+*.png    binary
+
+# 让 GitHub 语言统计正确识别本项目
+*.html   linguist-detectable=true
+*.js     linguist-detectable=true
+*.css    linguist-detectable=true
