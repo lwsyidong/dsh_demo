@@ -1,28 +1,78 @@
-# ---- 工具工作区（ZCode 的会话计划、Agent 截图等，非项目内容）----
+# ============================================================
+# 习惯花园 · 打卡助手 —— Git 忽略规则
+# ============================================================
+
+# ---- 1. 工具工作区（编辑器 / AI 工具的本地状态，非项目内容）----
 .zcode/
 .dsh-pilot/
+.claude/
+.cursor/
 
-# ---- 系统 / 编辑器 ----
+# ---- 2. 系统与编辑器杂物 ----
 .DS_Store
+._*
 Thumbs.db
+ehthumbs.db
 desktop.ini
 .idea/
 .vscode/
 *.swp
+*.swo
+*~
 
-# ---- 依赖与构建产物（本项目零依赖，仅作兜底）----
+# ---- 3. 依赖与构建产物（本项目零依赖，仅作兜底）----
 node_modules/
 dist/
 build/
+out/
+coverage/
 
-# ---- 日志与临时文件 ----
+# ---- 4. 日志与临时文件 ----
 *.log
 npm-debug.log*
+yarn-error.log*
 *.tmp
+*.temp
 *.bak
+*.orig
 
-# ---- 备份 / 导出 / 密钥 ----
-*.zip
-.habit-backup-*.json
+# ---- 5. 部署 / Docker 练习产物（不该进仓库）----
+# 5.1 环境变量与密钥
 .env
 .env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+.git-credentials
+# 5.2 容器与编排
+docker-compose.override.yml
+*.tar
+*.tar.gz
+*.tgz
+.Dockerfile.swp
+# 5.3 服务器 / 远程部署脚本与记录（含 IP、密码、私钥等）
+deploy.sh
+deploy.ps1
+upload*.sh
+rsync*.sh
+scp*.sh
+*.ppk
+*passw*.txt
+*凭据*.txt
+*秘钥*.txt
+# 5.4 nginx / caddy 本机配置（若确需版本化请单独放 deploy/ 并去掉此规则）
+nginx.conf
+sites-available/
+sites-enabled/
+# 5.5 上传包与压缩备份
+*.zip
+*.rar
+*.7z
+
+# ---- 6. 应用自身的数据备份 / 导出口 ----
+.habit-backup-*.json
+backup*.json
